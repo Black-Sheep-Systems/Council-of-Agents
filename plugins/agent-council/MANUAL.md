@@ -6,21 +6,21 @@ them in plain terms and shows what to say.
 
 ## Contents
 
-1. [What it is](#1-what-it-is)
-2. [Getting started](#2-getting-started)
-3. [How to ask](#3-how-to-ask)
-4. [The agents](#4-the-agents)
-5. [The programmer pipeline](#5-the-programmer-pipeline)
-6. [The writing pipeline](#6-the-writing-pipeline)
-7. [The art pipeline](#7-the-art-pipeline)
-8. [Reviews](#8-reviews)
-9. [Testing](#9-testing)
-10. [Working while you are away](#10-working-while-you-are-away)
-11. [Project rules](#11-project-rules)
-12. [Limits](#12-limits)
-13. [Troubleshooting](#13-troubleshooting)
+1. [What it is](#what-it-is)
+2. [Getting started](#getting-started)
+3. [How to ask](#how-to-ask)
+4. [The agents](#the-agents)
+5. [The programmer pipeline](#the-programmer-pipeline)
+6. [The writing pipeline](#the-writing-pipeline)
+7. [The art pipeline](#the-art-pipeline)
+8. [Reviews](#reviews)
+9. [Testing](#testing)
+10. [Working while you are away](#working-while-you-are-away)
+11. [Project rules](#project-rules)
+12. [Limits](#limits)
+13. [Troubleshooting](#troubleshooting)
 
-## 1. What it is
+## What it is
 
 The council is 21 named agents, each with one job, and one set of rules for
 running them. You talk to Claude as usual. Claude is the coordinator: it
@@ -40,7 +40,7 @@ Three things follow from that:
   fix, not the whole change again.
 - **Unfinished work is named as unfinished.** It is never presented as done.
 
-## 2. Getting started
+## Getting started
 
 ### Install
 
@@ -88,7 +88,7 @@ What happens:
 You did not have to ask for any of that. It applies whenever a task creates
 or changes files.
 
-## 3. How to ask
+## How to ask
 
 There are four ways to use the council.
 
@@ -114,7 +114,7 @@ There are four ways to use the council.
 - **A question is not a review request.** "What does this error mean?" gets
   an answer, not a round of agents.
 
-## 4. The agents
+## The agents
 
 Agents are launched as `agent-council:<name>`, for example
 `agent-council:marcus`. You only need the short name when you talk to Claude.
@@ -165,7 +165,7 @@ posts each agent needs.
 Each agent is given a **scope**: the exact files it may change, or
 "read-only". An agent that needs more than it was given stops and says so.
 
-## 5. The programmer pipeline
+## The programmer pipeline
 
 For multi-file or multi-step coding work. Small jobs skip most of it.
 
@@ -175,7 +175,7 @@ For multi-file or multi-step coding work. Small jobs skip most of it.
 | 2 | Rex, then Thomas | Only when an outside library or pattern is in question |
 | 3 | Ada writes the code | When there is code to write |
 | 4 | Quinn tests | When code changed |
-| 5 | Reviewers | Chosen by risk (see [Reviews](#8-reviews)) |
+| 5 | Reviewers | Chosen by risk (see [Reviews](#reviews)) |
 | 6 | Fix and re-check | Only if a reviewer asked for changes; at most twice |
 | 7 | Clara records the change | Where the project keeps records |
 | 8 | Atlas integrates | Only if several agents' work needs joining up |
@@ -199,7 +199,7 @@ For multi-file or multi-step coding work. Small jobs skip most of it.
 
 Steps that add nothing are skipped, and the report says which.
 
-## 6. The writing pipeline
+## The writing pipeline
 
 For a piece of writing someone asked for: an article, essay, report, guide,
 post or letter. Project docs and change logs are Clara's job, not this.
@@ -256,7 +256,7 @@ menu name that has changed, so the verdict is `CLAIMS CONTRADICTED`. Sol says
 the cause was in the writing. Prose corrects the menu name, Coeus checks
 again, and you get the piece with each verdict line.
 
-## 7. The art pipeline
+## The art pipeline
 
 Ember -> Blake -> Lex -> Nova -> Sage.
 
@@ -279,7 +279,7 @@ with `APPROVED`.
 back the final prompt, the negative prompt and the settings, and says plainly
 that no image was generated.
 
-## 8. Reviews
+## Reviews
 
 A review gate runs before any result that created or changed files is
 reported, and before anything with effects outside the working files: a git
@@ -335,7 +335,7 @@ that the new test fails when the bug is put back or the new check is taken
 out. This is done in a scratch copy in memory. Your production files are never
 edited to do it.
 
-## 9. Testing
+## Testing
 
 **Only the tests that cover the change are run. The full suite is for wide
 changes only.**
@@ -363,7 +363,7 @@ To get a full run, ask for one: "run the full suite".
 Test output is shown as the result line and any failures. Whole logs are not
 pasted.
 
-## 10. Working while you are away
+## Working while you are away
 
 This applies when you say you are stepping away and want work to continue
 ("keep going while I'm out", "run this overnight"), or when a session is
@@ -411,7 +411,7 @@ A local commit is allowed after a clean review when you asked for commits.
 Passing time never counts as approval. A parked item stays parked until you
 answer.
 
-## 11. Project rules
+## Project rules
 
 To add steps for one project, put a file at `.claude/agent-council.md` in
 that project. The plugin ships a template, `examples/project-overlay.md`. The
@@ -440,7 +440,7 @@ directory.
 Project rules add to the council's rules. They cannot override the testing
 rule or the review gate.
 
-## 12. Limits
+## Limits
 
 | Limit | Value | What happens at the limit |
 |---|---|---|
@@ -452,7 +452,7 @@ rule or the review gate.
 Agents that edit files do not run at the same time on overlapping files, and
 do not run while another agent is running tests their edit would affect.
 
-## 13. Troubleshooting
+## Troubleshooting
 
 **"Marcus, review this" does nothing special.**
 Check the plugin is installed and enabled with `claude plugin details
@@ -481,7 +481,7 @@ source material, or check the listed claims yourself.
 
 **A full test suite ran when you did not expect it.**
 Claude should have said why before running it. A checklist in your project is
-not a reason for one; tell Claude, and see [Testing](#9-testing).
+not a reason for one; tell Claude, and see [Testing](#testing).
 
 **The report says the work is unreviewed.**
 The session had no way to launch agents, so no independent review happened.

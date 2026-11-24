@@ -1,7 +1,8 @@
 # Council of Agents
 
-Twenty-one named specialist agents for Claude Code, and one skill that says how
-to run them so that testing and review are sized to the risk of each change.
+21 specialist agents for Claude Code, and one skill that says how to run
+them. Safe, simple changes get a light check; changes that touch security get a
+code review and a security audit.
 
 ## Who it is for
 

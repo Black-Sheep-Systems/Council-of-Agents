@@ -1,0 +1,11 @@
+# Settings for the GitHub Pages version of this repository.
+# The plugin itself does not use this file.
+title: Council of Agents
+description: 21 specialist agents for Claude Code. Safe, simple changes get a light check; changes that touch security get a code review and a security audit.
+theme: jekyll-theme-cayman
+exclude:
+  - tools
+  - dist
+  - plugins/agent-council/agents
+  - plugins/agent-council/skills
+  - plugins/agent-council/examples

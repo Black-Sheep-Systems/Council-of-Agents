@@ -176,7 +176,7 @@ def main() -> int:
     # 3. Nothing personal or single-project in what ships.
     files = sorted(p for p in PLUGIN.rglob("*")
                    if p.is_file() and not JUNK.search(p.name))
-    published = files + [ROOT / "README.md",
+    published = files + [ROOT / "README.md", ROOT / "_config.yml",
                          ROOT / ".claude-plugin" / "marketplace.json", SHARED]
     for path in published:
         try:

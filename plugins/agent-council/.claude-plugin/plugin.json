@@ -2,7 +2,7 @@
   "name": "agent-council",
   "displayName": "Council of Agents",
   "version": "4.0.0",
-  "description": "Twenty-one named specialist agents (research, code, tests, review, security, docs, infrastructure, art, writing) and the rules for running them with review sized to the risk of each change",
+  "description": "21 specialist agents for Claude Code (research, code, tests, review, security, docs, infrastructure, writing, art). Safe, simple changes get a light check; changes that touch security get a code review and a security audit.",
   "author": {
     "name": "Worldsmith"
   },
