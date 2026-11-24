@@ -1,0 +1,7 @@
+# Copy to private-terms.txt and list terms that must never appear in the
+# plugin: your name, private project names, internal function names.
+# One regular expression per line, matched without regard to case.
+# private-terms.txt is in .gitignore, so your list is never published.
+#
+# jane doe
+# \bsecret-project\b

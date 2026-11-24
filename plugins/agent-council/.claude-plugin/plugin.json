@@ -1,0 +1,10 @@
+{
+  "name": "agent-council",
+  "displayName": "Council of Agents",
+  "version": "4.0.0",
+  "description": "Twenty-one named specialist agents (research, code, tests, review, security, docs, infrastructure, art, writing) and the rules for running them with review sized to the risk of each change",
+  "author": {
+    "name": "Worldsmith"
+  },
+  "keywords": ["agents", "council", "subagents", "code-review", "security-audit", "testing", "pipeline", "writing"]
+}

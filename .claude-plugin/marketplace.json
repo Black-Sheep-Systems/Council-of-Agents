@@ -1,0 +1,14 @@
+{
+  "name": "worldsmith",
+  "description": "Plugins by Worldsmith, including the Council of Agents",
+  "owner": {
+    "name": "Worldsmith"
+  },
+  "plugins": [
+    {
+      "name": "agent-council",
+      "source": "./plugins/agent-council",
+      "description": "Twenty-one named specialist agents (research, code, tests, review, security, docs, infrastructure, art, writing) and the rules for running them with review sized to the risk of each change"
+    }
+  ]
+}
