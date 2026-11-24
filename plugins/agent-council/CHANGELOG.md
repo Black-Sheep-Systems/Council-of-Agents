@@ -10,9 +10,9 @@ dates they were last changed.
 ## Version 4.0.0 - 2026-11-24
 
 The first version packaged as a plugin that other people can install, and the
-first under the name Council of Agents (`agent-council`). Versions 1 to 3 were
-called the Avalon agent team, after the assistant the roster was written for;
-the plugin no longer depends on it.
+first under the name Council of Agents (`agent-council`). Versions 1 to 3
+went by an earlier name, taken from the assistant the roster was first written
+for; the plugin no longer depends on it.
 
 **Added**
 
@@ -28,9 +28,11 @@ the plugin no longer depends on it.
 - **Project rules.** A project can add its own steps, agent rules and file
   paths in `.claude/agent-council.md`. They add to the team's rules and cannot
   override the testing rule or the review gate.
+- **A user manual,** `MANUAL.md`.
 - **Failed agents.** If an agent errors or goes off task, the cause is fixed
   and it is launched once more; a second failure is reported as a step that
   was not run.
+
 **Changed**
 
 - **Agents are installed, not pasted.** Each agent is its own file and is
@@ -103,7 +105,7 @@ agents folder by an install script, plus a roster block for the main session.
 
 ## Version 1 - May 2026 (files last changed)
 
-The original roster, written for the Avalon assistant.
+The original roster, written for the assistant it was first built for.
 
 - **Ten programming agents** (Rex, Thomas, Ada, Devon, Quinn, Marcus,
   Sentinel, Clara, Piper, Atlas) and **five art agents** (Ember, Blake, Lex,

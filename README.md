@@ -38,6 +38,7 @@ plugins/agent-council/          the plugin
   agents/                           the twenty-one agents
   skills/council/SKILL.md           working rules, review gate, pipelines
   examples/project-overlay.md       template for per-project rules
+  MANUAL.md                         the user manual
   CHANGELOG.md                      what changed in each version
 tools/shared-rules.md               the rules appended to every agent
 tools/build.py                      check and package

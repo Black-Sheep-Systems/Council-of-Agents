@@ -232,7 +232,8 @@ Quill -> Prose -> Sabine -> Wren -> Coeus, with Sol on a failure.
    claims.
 6. On STRUCTURE FAIL, Verdict: FAIL or CLAIMS CONTRADICTED: Sol names the root
    cause and a lesson. Give the lesson to Prose (or to Quill first, if Sol
-   says the spec was the cause) and run again from that step. Re-run only the
+   says the spec was the cause) and run again from that step. If Sol says the
+   brief itself was the cause, stop and ask the user. Re-run only the
    check that failed and the ones after it. Max 2 retries, then stop, report
    what is open, and ask the user. The 20-launch cap per task applies here
    too.

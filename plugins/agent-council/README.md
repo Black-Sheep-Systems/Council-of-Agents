@@ -115,6 +115,12 @@ To add steps for one project (a pre-write check, where logs go), put them in
 `examples/project-overlay.md`; the quickest way to get it is to ask Claude to
 "set up project rules for the council".
 
+## Manual
+
+`MANUAL.md` is the full guide: how to ask, what each agent does, the three
+pipelines with worked examples, reviews, testing, working while you are away,
+project rules and troubleshooting.
+
 ## Versions
 
 This is version 4. `CHANGELOG.md` says what changed in each version since the
