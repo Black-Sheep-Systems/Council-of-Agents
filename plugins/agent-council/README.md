@@ -37,12 +37,17 @@ plugin; there is no separate harness, service or account to set up.
 
 The `council` skill adds:
 
+- **Reads the project first.** Before changing or reviewing anything, Claude
+  reads the project's own guidance and passes its conventions to the agents.
 - **Working rules.** Targeted tests by default; the full suite only for wide
-  changes. Result lines and failures only. Review what changed and what it
+  changes, with a suggestion to run it after 5 small changes or before a push. Result lines and failures only. Review what changed and what it
   affects, nothing else.
 - **A proportional review gate.** A risk table decides who reviews what:
   security-touching code gets Marcus and Sentinel, ordinary code gets Marcus,
   a README correction gets no review round.
+- **No push on a guess.** "Push to GitHub" can mean send it to GitHub or
+  copy it to the folder you push from. Claude settles which, says exactly
+  what will go, and waits for your go-ahead.
 - **Unattended running.** Rules for working while you are away: a change log,
   a fixed list of things it will not do without you, and a report that leads
   with what is waiting on you.
@@ -52,12 +57,9 @@ The `council` skill adds:
 
 ## Install
 
-Replace `<owner>/<repo>` with the repository that hosts this plugin's
-marketplace:
-
 ```bash
-claude plugin marketplace add <owner>/<repo>
-claude plugin install agent-council@worldsmith
+claude plugin marketplace add Black-Sheep-Systems/Council-of-Agents
+claude plugin install agent-council@black-sheep-systems
 ```
 
 ## Use
@@ -124,7 +126,7 @@ project rules and troubleshooting.
 
 ## Versions
 
-This is version 4. `CHANGELOG.md` says what changed in each version since the
+This is version 4.2. `CHANGELOG.md` says what changed in each version since the
 original roster.
 
 ## Limits
@@ -134,3 +136,7 @@ original roster.
   back the final prompt and says no image was generated.
 - The gate allows at most 2 fix cycles per change and 20 agent launches per
   task, then stops and asks.
+
+## Licence
+
+MIT. See `LICENSE`. Copyright (c) 2026 Black Sheep Systems.

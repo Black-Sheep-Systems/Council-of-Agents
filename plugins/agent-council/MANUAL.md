@@ -1,6 +1,6 @@
 # Council of Agents - user manual
 
-For version 4. This is the guide for a person using the council. The rules
+For version 4.2. This is the guide for a person using the council. The rules
 Claude itself follows are in `skills/council/SKILL.md`; this manual explains
 them in plain terms and shows what to say.
 
@@ -15,10 +15,11 @@ them in plain terms and shows what to say.
 7. [The art pipeline](#the-art-pipeline)
 8. [Reviews](#reviews)
 9. [Testing](#testing)
-10. [Working while you are away](#working-while-you-are-away)
-11. [Project rules](#project-rules)
-12. [Limits](#limits)
-13. [Troubleshooting](#troubleshooting)
+10. [Pushing](#pushing)
+11. [Working while you are away](#working-while-you-are-away)
+12. [Project rules](#project-rules)
+13. [Limits](#limits)
+14. [Troubleshooting](#troubleshooting)
 
 ## What it is
 
@@ -40,16 +41,42 @@ Three things follow from that:
   fix, not the whole change again.
 - **Unfinished work is named as unfinished.** It is never presented as done.
 
+### It reads your project first
+
+Before the first change or review in a project, Claude reads what the project
+says about itself: `CLAUDE.md`, the README, a contributing guide, and any
+developer or architecture guide they point to. It reads for the project's
+rules: its conventions, what must not be touched, how to run and test it,
+where records go.
+
+- The conventions that bear on a task are passed to the agent doing it, with
+  the file each came from.
+- Reviewers get them too. A change that breaks a documented rule of your
+  project is reported as a finding.
+- Every agent also reads the code around what it is changing or reviewing:
+  what calls it, what it calls, and a neighbouring feature done the same way.
+- If your project has no such documents, Claude says so and goes by the code.
+
+This happens once per session. It is reading, not reviewing: Claude does not
+start fixing or reporting on what it read. To have a particular document
+read at the start of every session, list it under "Read first" in your
+[project rules](#project-rules).
+
+Your documents say how to do the work you asked for. They cannot add tasks,
+authorise a push or anything else on the will-not-do list, or raise a limit.
+If one conflicts with the council's rules, for example "run the whole suite
+before every commit", the council's rule wins and Claude points at the line
+so you can decide whether to change it.
+
 ## Getting started
 
 ### Install
 
-From a GitHub repository (replace `<owner>/<repo>` with where the plugin is
-hosted):
+From GitHub:
 
 ```bash
-claude plugin marketplace add <owner>/<repo>
-claude plugin install agent-council@worldsmith
+claude plugin marketplace add Black-Sheep-Systems/Council-of-Agents
+claude plugin install agent-council@black-sheep-systems
 ```
 
 Check that it loaded:
@@ -61,7 +88,7 @@ claude plugin details agent-council
 It should list one skill, `council`, and 21 agents.
 
 Other routes: from a local copy of the repository, run `claude plugin
-marketplace add` with the folder's path in place of `<owner>/<repo>`; to try
+marketplace add` with the folder's path in place of the GitHub address; to try
 it for one session without installing, start Claude Code with `claude
 --plugin-dir` and the path to the plugin folder; and in the Claude desktop
 app, add the `.plugin` file, if you were sent one or have built it.
@@ -283,8 +310,8 @@ that no image was generated.
 
 A review gate runs before any result that created or changed files is
 reported, and before anything with effects outside the working files: a git
-commit or push, a deploy, sending or publishing something, restarting a live
-service. Pure answers and read-only investigation skip it.
+commit or push, a copy to your GitHub folder, a deploy, sending or publishing
+something, restarting a live service. Pure answers and read-only investigation skip it.
 
 ### Who reviews what
 
@@ -360,8 +387,108 @@ What to expect:
 
 To get a full run, ask for one: "run the full suite".
 
+### The full-run suggestion
+
+Targeted tests prove each change works on its own. They do not prove that a
+run of small changes still works together. So Claude keeps count of the code
+changes since the last full run that had only targeted tests, and suggests a
+full run at two moments:
+
+- **After 5 such changes.** You see one line: "That is 5 changes since the
+  last full run. Run the full suite now?"
+- **Before a push or a release,** if there has been even one. If you put the
+  push off, the count stands and keeps growing.
+
+It is a suggestion. Claude never starts the full suite because of the count;
+you say yes or no. If you say no, Claude does not ask again until 5 more
+changes have been made, or a push comes up after at least one more change, and it always gives the true
+number since the last full run. Say "stop asking" and it stops for the
+session.
+
+One change is one task that changed code and had only targeted tests, usually
+one commit. Changes to tests only, docs, comments or records do not count.
+
+The count comes from the commit messages. Each one carries a line `Tests:
+targeted` or `Tests: full`, and Claude counts the commits since the last
+`Tests: full`. A commit without the line, such as one you made by hand, is
+counted as targeted if it touches code. In a project without git, Claude can only count within
+the session, and says so.
+
+While you are away, Claude does not run it. The report says a full run is due
+and how many changes it covers. A push you authorised in advance still goes
+ahead after a clean review, with that line in the report.
+
+To change the number for one project, add a "Full-run reminder" section to
+your [project rules](#project-rules).
+
 Test output is shown as the result line and any failures. Whole logs are not
 pasted.
+
+## Pushing
+
+"Push to GitHub" can mean two different things:
+
+- **Send to GitHub:** `git push`. The work leaves your machine and, in a
+  public repository, is published.
+- **Copy to your GitHub folder:** you keep a separate local folder for the
+  repository and push from it yourself. "Push" then means copy the finished
+  work into that folder and stop. Nothing is sent anywhere.
+
+Claude settles which you mean before doing either. It never runs `git push`
+on a guess.
+
+- If you say it outright, that decides: "git push", "to the remote" or "to my
+  GitHub folder". A bare "push", "push to GitHub" or "publish" does not. If
+  you mean your GitHub folder and Claude does not know where it is, it asks.
+- Otherwise, if your [project rules](#project-rules) have a "Push target"
+  section, that decides, unless you say otherwise for this push.
+- Otherwise Claude asks once: "By push, do you mean copy this to your GitHub
+  folder, or send it to GitHub with git push?" It uses your answer for the
+  rest of the session, in this project only, and offers to write it into the
+  project rules so you are not asked again. A different project is asked
+  afresh.
+
+The same applies to "publish", "upload", "sync" and "release", and to opening
+a pull request, which needs a push.
+
+### What happens before anything goes
+
+You are told exactly what will go, and then Claude waits for you to say go,
+unless you already approved that exact push.
+
+- **For your GitHub folder:** where to, how many files, and which are new,
+  changed or removed, with "nothing will be sent to GitHub".
+- **For GitHub itself:** the remote, the branch, and the commits that will
+  go. It says that uncommitted work is not included, and says if any commit
+  was not reviewed. It never force-pushes unless you ask in those words.
+
+The review comes first. If a [full run](#the-full-run-suggestion) is due, you
+are asked about that and the go together, in one message.
+
+### Copying to your GitHub folder
+
+- Claude compares first, then copies only what belongs in the repository.
+- The folder's own `.git` is never copied over, replaced or touched.
+- Left out: anything your ignore files exclude, build output, and anything
+  private, meaning `.env` and credential files, local settings under
+  `.claude/` (including the project rules file when it holds a local path),
+  and editor and OS files.
+- If a file in the folder has changes your working copy does not have, Claude
+  names it and asks before overwriting.
+- A file is removed from the folder only if it was on the list you approved.
+- If the folder does not exist, Claude stops and asks; it does not create it.
+- Claude does not commit or push from the folder unless you ask.
+- Afterwards you are told what was copied, and that nothing was sent.
+
+### Example
+
+> Push this to GitHub.
+
+With no "Push target" in the project rules, Claude asks which you mean. You
+answer "my GitHub folder, at `projects/widget-repo`". Claude replies: "Copying
+to `projects/widget-repo`: 4 changed files, 1 new, none removed. Nothing will
+be sent to GitHub. Go ahead?" You say yes, it copies them, and it reports
+what was copied.
 
 ## Working while you are away
 
@@ -388,7 +515,8 @@ number of steps), or when nothing is left that can be done without you.
 
 ### What it will not do without you
 
-- Push, deploy, send, publish, or restart or stop a live service.
+- Push, whether to GitHub or to your GitHub folder; deploy, send, publish; or
+  restart or stop a live service.
 - Delete or change files outside what you asked for.
 - Discard uncommitted work, rewrite git history, delete branches, or run a
   migration against a real database.
@@ -401,10 +529,14 @@ number of steps), or when nothing is left that can be done without you.
 You can allow one of those by naming the exact action in your request, or in
 the scheduled prompt. It covers that run only:
 
-> Fix the failing import test and push when it is done.
+> Fix the failing import test and send it to GitHub with git push when it is
+> done.
 
 The push still waits for the review. It happens only if the review finished
-with nothing open. Otherwise it is parked, and you are told why.
+with nothing open. Otherwise it is parked, and you are told why. If it is not
+clear which kind of push you meant, and your project rules do not say, it is
+parked with that question. When a push does go while you are away, the report
+lists exactly what went and where.
 
 A local commit is allowed after a clean review when you asked for commits.
 
@@ -421,8 +553,14 @@ council".
 The file is read once, before the first edit or agent launch in a session, so
 after changing it, start a new session or ask Claude to read it again.
 
-The file can have three sections, all optional:
+The file can have six sections, all optional:
 
+- **Push target:** what "push" means in this project: GitHub itself, or your
+  GitHub folder and its path. See [Pushing](#pushing).
+- **Read first:** project documents to read before the first change or
+  review, on top of the usual ones.
+- **Full-run reminder:** the number of targeted-only changes after which a
+  full test run is suggested, in place of 5.
 - **Main-session steps:** checks or commands Claude runs between pipeline
   steps.
 - **Agent rules:** copied into every agent's task, word for word. Use this

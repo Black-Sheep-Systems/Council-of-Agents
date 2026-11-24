@@ -21,8 +21,18 @@ and reports back with what was checked and what was not.
   gets no agents. A change to how a total is calculated gets a test and a
   code review. A change to how passwords or uploads are handled gets a test,
   a code review and a security audit.
+- **Reads your project first.** Before changing or reviewing anything, Claude
+  reads the project's own guidance (README, contributing and developer
+  guides) and passes its conventions to the agents, so their work fits the
+  project and reviewers can hold a change to its documented rules.
 - **Runs only the tests that cover the change.** The full test suite is for
   wide changes, and Claude says which it is running, and why, before it runs.
+  After 5 small changes, or before a push, it suggests a full run and waits
+  for your answer.
+- **Never pushes on a guess.** "Push to GitHub" can mean send it to GitHub,
+  or copy it to the local folder you push from yourself. Claude settles which
+  you mean, tells you exactly what will go and where, and waits for your
+  go-ahead.
 - **Says plainly what was not checked.** Every result that changed files ends
   with a short review section: who reviewed what, what they found, what was
   fixed, what is still open, and which checks did not run.
@@ -37,11 +47,9 @@ plugin; there is no separate harness, service or account to set up.
 
 ## Install
 
-Replace `<owner>/<repo>` with this repository's address on GitHub:
-
 ```bash
-claude plugin marketplace add <owner>/<repo>
-claude plugin install agent-council@worldsmith
+claude plugin marketplace add Black-Sheep-Systems/Council-of-Agents
+claude plugin install agent-council@black-sheep-systems
 ```
 
 Check that it loaded:
@@ -135,10 +143,11 @@ Other ways to use it:
 7. [The art pipeline](plugins/agent-council/MANUAL.md#the-art-pipeline)
 8. [Reviews](plugins/agent-council/MANUAL.md#reviews)
 9. [Testing](plugins/agent-council/MANUAL.md#testing)
-10. [Working while you are away](plugins/agent-council/MANUAL.md#working-while-you-are-away)
-11. [Project rules](plugins/agent-council/MANUAL.md#project-rules)
-12. [Limits](plugins/agent-council/MANUAL.md#limits)
-13. [Troubleshooting](plugins/agent-council/MANUAL.md#troubleshooting)
+10. [Pushing](plugins/agent-council/MANUAL.md#pushing)
+11. [Working while you are away](plugins/agent-council/MANUAL.md#working-while-you-are-away)
+12. [Project rules](plugins/agent-council/MANUAL.md#project-rules)
+13. [Limits](plugins/agent-council/MANUAL.md#limits)
+14. [Troubleshooting](plugins/agent-council/MANUAL.md#troubleshooting)
 
 ## Limits
 
@@ -152,12 +161,12 @@ Other ways to use it:
 
 ## Other ways to install
 
-From a local copy of this repository, give the folder's path in place of
-`<owner>/<repo>`:
+From a local copy of this repository, give the folder's path in place of the
+GitHub address:
 
 ```bash
-claude plugin marketplace add ./agent-council
-claude plugin install agent-council@worldsmith
+claude plugin marketplace add ./Council-of-Agents
+claude plugin install agent-council@black-sheep-systems
 ```
 
 To try it for one session without installing, start Claude Code with
@@ -179,10 +188,12 @@ plugins/agent-council/              the plugin
   examples/project-overlay.md       template for per-project rules
   MANUAL.md                         the user manual
   CHANGELOG.md                      what changed in each version
+  LICENSE                           the MIT licence, shipped with the plugin
 tools/shared-rules.md               the rules appended to every agent
 tools/build.py                      check and package
 tools/private-terms.example.txt     template for your own never-publish list
 _config.yml                         settings for the website version
+LICENSE                             the MIT licence
 ```
 
 ### Change and rebuild
@@ -213,3 +224,7 @@ This repository can also be served as a website by GitHub Pages, with this
 page as the home page and the manual as a page of its own. `_config.yml`
 holds the title and theme. Turn it on in the repository's Pages settings,
 publishing from the main branch.
+
+## Licence
+
+MIT. See [LICENSE](LICENSE). Copyright (c) 2026 Black Sheep Systems.

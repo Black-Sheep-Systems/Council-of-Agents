@@ -1,10 +1,14 @@
 {
   "name": "agent-council",
   "displayName": "Council of Agents",
-  "version": "4.0.0",
+  "version": "4.2.0",
   "description": "21 specialist agents for Claude Code (research, code, tests, review, security, docs, infrastructure, writing, art). Safe, simple changes get a light check; changes that touch security get a code review and a security audit.",
   "author": {
-    "name": "Worldsmith"
+    "name": "Black Sheep Systems",
+    "url": "https://github.com/Black-Sheep-Systems"
   },
+  "homepage": "https://github.com/Black-Sheep-Systems/Council-of-Agents",
+  "repository": "https://github.com/Black-Sheep-Systems/Council-of-Agents",
+  "license": "MIT",
   "keywords": ["agents", "council", "subagents", "code-review", "security-audit", "testing", "pipeline", "writing"]
 }

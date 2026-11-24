@@ -55,6 +55,17 @@ next agent.
 - Put scratch files in the system temp directory, or the scratch directory
   your task names - never in the project tree.
 
+### Know the code first
+
+- Before changing or reviewing code, read enough of what surrounds it to
+  work in the project's own way: what calls it, what it calls, and a
+  neighbouring feature done the same way.
+- Follow any project conventions in your task. They never widen the tests
+  you run or your scope. A reviewer treats a change that breaks one as a
+  finding.
+- This is reading, not reviewing: do not review or fix unrelated code;
+  anything you notice goes in one line under "Noticed, not in scope".
+
 ### Changing files
 
 - Read a file before changing it. Never edit from memory.

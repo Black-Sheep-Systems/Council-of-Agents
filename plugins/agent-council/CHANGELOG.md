@@ -7,6 +7,41 @@ Versions 1 and 2 were not numbered at the time. Their numbers, and the months
 given for versions 1 to 3, were worked out afterwards from the files and the
 dates they were last changed.
 
+## Version 4.2.0 - 2026-11-24
+
+**Added**
+
+- **What "push" means.** "Push to GitHub" can mean sending commits to the
+  remote, or copying the finished work into a separate local folder the user
+  pushes from themselves. Claude now settles which is meant before doing
+  either, says exactly what will go and where, and waits for the go-ahead. It
+  never runs `git push` on a guess.
+- **A project-rules section,** "Push target", so the question need only be
+  answered once per project.
+
+## Version 4.1.0 - 2026-11-24
+
+**Added**
+
+- **Know the project first.** Before the first change or review in a
+  project, Claude reads what the project says about itself (`CLAUDE.md`, the
+  README, contributing and developer guides) and passes the conventions that
+  bear on each task to the agent doing it. Reviewers get them too, so a
+  change that breaks a documented rule of the project is a finding. Every
+  agent is also told to read the code around what it changes or reviews.
+- **Full-run reminder.** After 5 code changes that had only targeted tests,
+  and before a push or release when at least one such change is waiting,
+  Claude suggests a full test run and waits for the answer. It never starts
+  one on its own. The number can be set per project. Commit messages now
+  carry a line `Tests: targeted` or `Tests: full`, which is what the count is
+  taken from.
+- **Two project-rules sections:** "Read first" and "Full-run reminder".
+
+**Unchanged**
+
+- Targeted tests are still the default, and the full suite still runs only
+  for a wide change or when the user says yes.
+
 ## Version 4.0.0 - 2026-11-24
 
 The first version packaged as a plugin that other people can install, and the
@@ -29,6 +64,8 @@ for; the plugin no longer depends on it.
   paths in `.claude/agent-council.md`. They add to the team's rules and cannot
   override the testing rule or the review gate.
 - **A user manual,** `MANUAL.md`.
+- **Licence.** MIT, copyright Black Sheep Systems; `LICENSE` ships with the
+  plugin.
 - **Failed agents.** If an agent errors or goes off task, the cause is fixed
   and it is launched once more; a second failure is reported as a step that
   was not run.

@@ -1,8 +1,8 @@
 {
-  "name": "worldsmith",
-  "description": "Plugins by Worldsmith, including the Council of Agents",
+  "name": "black-sheep-systems",
+  "description": "Plugins by Black Sheep Systems, including the Council of Agents",
   "owner": {
-    "name": "Worldsmith"
+    "name": "Black Sheep Systems"
   },
   "plugins": [
     {
