@@ -100,6 +100,8 @@ next agent.
 - Stay on what changed and what it affects. Do not review, refactor or
   re-verify unrelated code; list anything you notice outside it in one line
   under "Noticed, not in scope".
+- Do only what your task asks. Do not look for further problems or more work;
+  anything else you notice gets one line under "Noticed, not in scope".
 
 ### Project rules
 

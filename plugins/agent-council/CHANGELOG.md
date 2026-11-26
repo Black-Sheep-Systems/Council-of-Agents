@@ -7,6 +7,79 @@ Versions 1 and 2 were not numbered at the time. Their numbers, and the months
 given for versions 1 to 3, were worked out afterwards from the files and the
 dates they were last changed.
 
+## Version 4.3.3 - 2026-11-26
+
+**Changed**
+
+- **Marcus and Sentinel can no longer list folders on the user's computer.**
+  Listing a folder outside the connected ones still showed its sub-folder
+  names, and a reviewer could take what it saw as something it may reach
+  for. They keep only copying in files their task names, from connected
+  folders; everything else is refused.
+- **The main session gives a reviewer the listing instead.** Step 5: a
+  reviewer working on files on the user's computer gets a listing of the
+  connected folder in its task, so it sees what it has access to and has no
+  way to look anywhere else.
+
+## Version 4.3.2 - 2026-11-26
+
+**Added**
+
+- **Marcus and Sentinel can reach files on the user's computer** when the
+  session runs in the cloud and is linked to it: each can list a folder and
+  copy files in. Only folders the user has connected to that session; they
+  cannot ask for more, and they cannot run anything on the user's computer. Each
+  copies in only the files its task names.
+
+**Changed**
+
+- **Step 5 of launching an agent covers reviewers.** A reviewer that cannot
+  reach the files gets copies of exactly what it needs, named in its task, or
+  the review is reported as not run.
+
+## Version 4.3.1 - 2026-11-26
+
+**Added**
+
+- **Do what was asked, and stop** (working rule 8). No looking for further
+  problems, widening a review, or fixing nearby issues unless the user asks.
+  Findings about the change itself are still fixed; anything outside it gets
+  one line under "Noticed, not in scope". The skill's own offers and
+  prompts, and Sentinel's audit log, are unchanged.
+- The same rule, in one line, in every agent's shared rules, so it reaches
+  the agents and not only the main session.
+
+**Changed**
+
+- Review gate step 3 fixes reviewer findings about the change (rule 8).
+
+## Version 4.3.0 - 2026-11-24
+
+**Added**
+
+- **Project layout.** Claude follows the language's accepted practice, then
+  the framework's, then the project's own. It never moves or merges files
+  unasked. If tests or hand-written styles are scattered in a way that is a
+  problem for that kind of project, it says so once, in one line, and offers
+  a tidy-up plan. A tidy-up the user accepts is a task of its own, with a
+  full test run before and after and, for styles, a look at the result.
+- **Tests are not published unless the user says so.** Test folders and test
+  files are left out of a copy to a staging folder, and a push to the remote
+  stops and asks if its commits contain them. Tests written inside source
+  files go with the code.
+- **A leave-out list and a secrets check before anything is published.**
+  Secrets, data dumps, logs, local settings and the council's own logs are
+  left out and named, and what remains is searched for keys, tokens and
+  passwords. The full rules are in `skills/council/references/pushing.md`.
+- **Stricter pushes to the remote.** One named branch; the address, owner and
+  visibility are stated; every file in every commit is listed; tags, other
+  branches and force-pushes only when asked for in those words.
+- **Whose file is it.** A project rules file that git tracks may have come
+  with the repository, so its steps and any line that sends more out are
+  shown and confirmed before they are followed.
+- **A project-rules section,** "Layout", and a "Publish tests" line under
+  "Push target".
+
 ## Version 4.2.0 - 2026-11-24
 
 **Added**

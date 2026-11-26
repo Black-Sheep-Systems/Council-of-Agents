@@ -1,7 +1,7 @@
 {
   "name": "agent-council",
   "displayName": "Council of Agents",
-  "version": "4.2.0",
+  "version": "4.3.3",
   "description": "21 specialist agents for Claude Code (research, code, tests, review, security, docs, infrastructure, writing, art). Safe, simple changes get a light check; changes that touch security get a code review and a security audit.",
   "author": {
     "name": "Black Sheep Systems",

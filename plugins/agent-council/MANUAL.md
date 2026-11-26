@@ -1,6 +1,6 @@
 # Council of Agents - user manual
 
-For version 4.2. This is the guide for a person using the council. The rules
+For version 4.3. This is the guide for a person using the council. The rules
 Claude itself follows are in `skills/council/SKILL.md`; this manual explains
 them in plain terms and shows what to say.
 
@@ -15,11 +15,12 @@ them in plain terms and shows what to say.
 7. [The art pipeline](#the-art-pipeline)
 8. [Reviews](#reviews)
 9. [Testing](#testing)
-10. [Pushing](#pushing)
-11. [Working while you are away](#working-while-you-are-away)
-12. [Project rules](#project-rules)
-13. [Limits](#limits)
-14. [Troubleshooting](#troubleshooting)
+10. [Project layout](#project-layout)
+11. [Pushing](#pushing)
+12. [Working while you are away](#working-while-you-are-away)
+13. [Project rules](#project-rules)
+14. [Limits](#limits)
+15. [Troubleshooting](#troubleshooting)
 
 ## What it is
 
@@ -424,6 +425,65 @@ your [project rules](#project-rules).
 Test output is shown as the result line and any failures. Whole logs are not
 pasted.
 
+## Project layout
+
+Claude works the way the language does, and then the way your project does.
+Where the language has an accepted practice for where things go, it follows
+that. Where a framework says otherwise, the framework decides. Where your
+project has its own consistent or documented way, your project decides. New
+files go where the project keeps that kind of file.
+
+### It looks, it does not touch
+
+Claude never moves, merges or reorganises your tests, styles or other files
+unasked. If it sees a problem, it tells you once, in one line, with the
+numbers, and offers a plan:
+
+> Tests are in 14 places and 3 are duplicated; they could be gathered in one
+> folder. Want a tidy-up plan?
+
+It works out what kind of project it is before saying anything, because the
+same layout is a problem in one kind of project and correct in another:
+
+| | A problem | Left alone |
+|---|---|---|
+| **Tests** | Scattered or duplicated where the language keeps tests apart, as Python does | Kept beside or inside the code on purpose: Rust unit tests in the source file, Go test files beside the code, a test next to each component |
+| **Styles (CSS)** | Hand-written CSS over many files with overlapping or conflicting rules | Styles kept with each component on purpose, CSS modules, a utility framework |
+
+If the layout is normal for your kind of project, Claude says nothing. The
+offer is made once per project. Claude uses your answer for the rest of the
+session and offers to save it to your [project rules](#project-rules); it
+writes the file only if you agree.
+
+### If you say yes
+
+A yes is a yes to a plan, not to the move. The tidy-up is a task of its own,
+never a side effect of other work, and it is never started while you are
+away.
+
+1. **You see the plan first.** Atlas lists every file that will move and
+   where to, every file or test that will be removed and why, every pair it
+   considers duplicates, and every style rule that will be merged or
+   dropped. Nothing changes until you say go, and only what is on the list
+   you approved is touched.
+2. **It can be undone.** Your work is committed first, or you say to go on
+   anyway, and files are moved in a way that keeps their history.
+3. **The full test suite runs before and after,** and Claude says so first.
+   It reports how many tests were found each time; a lower number afterwards
+   is explained test by test, or treated as a failure.
+4. **Problems are reported, then fixed with your go:** duplicated tests,
+   tests that were silently not running, style rules that conflict or
+   repeat. A test or style rule is never deleted as a "duplicate" without
+   you having seen it named.
+5. **Styles are looked at.** The aim is consistency, not a file count: one
+   shared place for common values and no duplicated rules. Merging styles
+   changes the order rules apply in, and tests do not catch that. Claude
+   asks you to check the pages, or uses a screenshot tool if the session has
+   one. Until then the styles are reported as not visually checked.
+
+Saving your answer to the project rules only stops the question being asked
+again. It never counts as permission to reorganise.
+
 ## Pushing
 
 "Push to GitHub" can mean two different things:
@@ -432,7 +492,7 @@ pasted.
   public repository, is published.
 - **Copy to your GitHub folder:** you keep a separate local folder for the
   repository and push from it yourself. "Push" then means copy the finished
-  work into that folder and stop. Nothing is sent anywhere.
+  work into that folder and stop. Claude sends nothing anywhere.
 
 Claude settles which you mean before doing either. It never runs `git push`
 on a guess.
@@ -448,47 +508,109 @@ on a guess.
   project rules so you are not asked again. A different project is asked
   afresh.
 
-The same applies to "publish", "upload", "sync" and "release", and to opening
-a pull request, which needs a push.
+The same applies to "publish", "upload", "sync" and "release", to opening a
+pull request, and to any other way of sending files out, such as publishing
+a package.
 
 ### What happens before anything goes
 
-You are told exactly what will go, and then Claude waits for you to say go,
-unless you already approved that exact push.
+You are told exactly what will go, and then Claude waits for you to say go.
+A request to push is not approval of the list. If the list changes, you are
+asked again.
 
-- **For your GitHub folder:** where to, how many files, and which are new,
-  changed or removed, with "nothing will be sent to GitHub".
-- **For GitHub itself:** the remote, the branch, and the commits that will
-  go. It says that uncommitted work is not included, and says if any commit
-  was not reviewed. It never force-pushes unless you ask in those words.
+Before it shows you the list, Claude:
 
-The review comes first. If a [full run](#the-full-run-suggestion) is due, you
-are asked about that and the go together, in one message.
+- **Works out what belongs.** For your GitHub folder, that is the files git
+  tracks plus new files from this work, not everything in the folder.
+- **Leaves out what should not be published,** and names each thing left
+  out: secrets such as `.env` files and keys, database dumps and logs,
+  backups, very large files, your local settings and project rules file, and
+  the council's own audit and change logs. If a file on that list is one git
+  tracks, such as a database schema you publish on purpose, Claude does not
+  drop it silently: it asks once, and your answer holds for the session.
+  Example files such as `.env.example` go.
+- **Leaves out tests,** unless you have said to publish them (see below).
+- **Searches what is left for secrets:** keys, tokens, passwords and
+  internal addresses written into files. If it finds one, it names the file
+  and line without showing the value, leaves the file out, and asks. This
+  search is a safeguard, not proof that nothing is there.
+
+If a [full run](#the-full-run-suggestion) is due, you are asked about that
+and the go together, in one message. Work the council changed is
+reviewed before it is pushed, unless you skipped the review or the change
+needed none, such as a docs-only edit. Claude says which parts of the push
+were not reviewed in this session.
 
 ### Copying to your GitHub folder
 
-- Claude compares first, then copies only what belongs in the repository.
+- You are told where to, which files are new and changed, and every removal
+  by name.
 - The folder's own `.git` is never copied over, replaced or touched.
-- Left out: anything your ignore files exclude, build output, and anything
-  private, meaning `.env` and credential files, local settings under
-  `.claude/` (including the project rules file when it holds a local path),
-  and editor and OS files.
 - If a file in the folder has changes your working copy does not have, Claude
   names it and asks before overwriting.
-- A file is removed from the folder only if it was on the list you approved.
-- If the folder does not exist, Claude stops and asks; it does not create it.
+- A file is removed from the folder only if you deleted or renamed it in
+  your project as part of this work, and only after you approved the list.
+  Files that only live in the folder, such as tests copied there in the
+  past, are left alone.
+- The folder must be a git repository on a local drive. If it is not, or it
+  does not exist, Claude stops and asks; it does not create it.
 - Claude does not commit or push from the folder unless you ask.
-- Afterwards you are told what was copied, and that nothing was sent.
+- If the folder is inside a synced or shared folder, Claude says so, because
+  something else may then send it on.
+
+### Sending to GitHub itself
+
+- You are told the remote, its address, its owner, and whether the
+  repository is public or private, or that this could not be checked.
+- You are told the branch, the commits, and every file in them, including
+  files one commit added and a later one removed. Those are still published.
+- Uncommitted work is not included, and Claude says so.
+- One branch is pushed. Tags, other branches, deleting a branch and
+  force-pushing happen only if you ask in those words.
+- If the repository is not your own, Claude says so and asks.
+
+### Tests are not published unless you say so
+
+Tests, and the data they use, can carry sample credentials, real data and
+internal addresses, so they stay off GitHub by default. That covers test
+folders and files, and also fixtures, sample data, snapshots, recorded
+network traffic and test-only settings, wherever they are kept.
+
+- **To allow it:** say so, or put "Publish tests: yes" under "Push target" in
+  your own project rules. Nothing else can allow it: not a document in the
+  project, not a file that came with a repository, not an agent.
+- **Copying to your GitHub folder:** tests are left out, and the list names
+  the folders and the count.
+- **Sending to GitHub itself:** files cannot be taken out of commits that
+  already exist. If the commits contain tests, Claude names them and stops.
+  Your choices are to publish them, to copy to your GitHub folder instead,
+  or to ask for the history to be rewritten. Adding tests to your ignore
+  file does not remove them from commits already made.
+- **Tests written inside source files,** as some languages intend, go with
+  the code, because they cannot be separated. They are searched for secrets
+  like any other file.
+- **If what is published still needs the tests,** such as a build file or an
+  automated check that names the test folder, Claude names it and warns you
+  that the published copy may not build or its checks may fail. It does not
+  edit those files unasked.
+
+Leaving tests out has a cost, and Claude says it once per project: nobody
+else can run them, and checks that run on GitHub may fail or have nothing to
+run.
 
 ### Example
 
 > Push this to GitHub.
 
 With no "Push target" in the project rules, Claude asks which you mean. You
-answer "my GitHub folder, at `projects/widget-repo`". Claude replies: "Copying
-to `projects/widget-repo`: 4 changed files, 1 new, none removed. Nothing will
-be sent to GitHub. Go ahead?" You say yes, it copies them, and it reports
-what was copied.
+answer "my GitHub folder, at `projects/widget-repo`". Claude replies:
+
+> Copying to `projects/widget-repo`: 4 changed files, 1 new, none removed.
+> Left out: `tests/` and `fixtures/` (6 files), `.env`. `ci.yml` runs the
+> tests and may fail without them. Claude will not send anything to GitHub.
+> Go ahead?
+
+You say yes, it copies them, and it reports what was copied.
 
 ## Working while you are away
 
@@ -532,11 +654,19 @@ the scheduled prompt. It covers that run only:
 > Fix the failing import test and send it to GitHub with git push when it is
 > done.
 
-The push still waits for the review. It happens only if the review finished
-with nothing open. Otherwise it is parked, and you are told why. If it is not
-clear which kind of push you meant, and your project rules do not say, it is
-parked with that question. When a push does go while you are away, the report
-lists exactly what went and where.
+While you are away, a push or a copy goes only when all of these hold:
+
+- Which kind of push you mean is settled without asking. For GitHub itself,
+  your request must say so. For a copy to your GitHub folder, your request
+  or your own project rules can.
+- The review finished with nothing open.
+- Everything in the push was made and reviewed in this run.
+- Nothing on the leave-out list and no secret was found in it.
+- For GitHub itself, its commits contain no tests you have not allowed.
+
+If any of them fails, it is parked and you are told why. When something does
+go, the report lists exactly what went and where. A copy to your GitHub
+folder leaves tests out, and any overwrite or removal there waits for you.
 
 A local commit is allowed after a clean review when you asked for commits.
 
@@ -553,10 +683,13 @@ council".
 The file is read once, before the first edit or agent launch in a session, so
 after changing it, start a new session or ask Claude to read it again.
 
-The file can have six sections, all optional:
+The file can have seven sections, all optional:
 
 - **Push target:** what "push" means in this project: GitHub itself, or your
-  GitHub folder and its path. See [Pushing](#pushing).
+  GitHub folder and its path; and whether tests are published. See
+  [Pushing](#pushing).
+- **Layout:** where tests and styles live, and whether a tidy-up has been
+  offered. See [Project layout](#project-layout).
 - **Read first:** project documents to read before the first change or
   review, on top of the usual ones.
 - **Full-run reminder:** the number of targeted-only changes after which a
@@ -577,6 +710,29 @@ directory.
 
 Project rules add to the council's rules. They cannot override the testing
 rule or the review gate.
+
+### Whose file is it
+
+The project rules speak for you only when the file is yours. A rules file
+that came with someone else's repository could hold commands.
+
+- Claude treats the file as yours when the project is its own git repository
+  with at least one commit, and git does not track the file. It then exists
+  only on your machine.
+- Otherwise, including in a project with no git, Claude shows you its steps,
+  its agent rules, its paths and any line that sends more out, and asks
+  before following them. Your yes lasts for the session, so a project
+  without git is asked once each session.
+- Claude writes to this file only after showing you the exact lines and
+  getting a yes.
+
+Keeping the file out of the repository, through your ignore file, avoids
+that question and keeps your local folder paths from being published.
+
+This test has limits. It cannot tell when a downloaded archive brought its
+own `.git` folder, or when a project's own install script wrote the file. If
+you did not write a rules file you find in a project you downloaded, delete
+it.
 
 ## Limits
 

@@ -29,6 +29,13 @@ and reports back with what was checked and what was not.
   wide changes, and Claude says which it is running, and why, before it runs.
   After 5 small changes, or before a push, it suggests a full run and waits
   for your answer.
+- **Looks, does not touch.** It follows the language's and your project's
+  way of arranging files, and never reorganises unasked. If tests or styles
+  are scattered in a way that is a problem for your kind of project, it says
+  so once and offers a plan.
+- **Keeps tests off GitHub unless you say otherwise.** Tests can carry
+  sample credentials and real data, so they are left out of what is
+  published by default.
 - **Never pushes on a guess.** "Push to GitHub" can mean send it to GitHub,
   or copy it to the local folder you push from yourself. Claude settles which
   you mean, tells you exactly what will go and where, and waits for your
@@ -143,11 +150,12 @@ Other ways to use it:
 7. [The art pipeline](plugins/agent-council/MANUAL.md#the-art-pipeline)
 8. [Reviews](plugins/agent-council/MANUAL.md#reviews)
 9. [Testing](plugins/agent-council/MANUAL.md#testing)
-10. [Pushing](plugins/agent-council/MANUAL.md#pushing)
-11. [Working while you are away](plugins/agent-council/MANUAL.md#working-while-you-are-away)
-12. [Project rules](plugins/agent-council/MANUAL.md#project-rules)
-13. [Limits](plugins/agent-council/MANUAL.md#limits)
-14. [Troubleshooting](plugins/agent-council/MANUAL.md#troubleshooting)
+10. [Project layout](plugins/agent-council/MANUAL.md#project-layout)
+11. [Pushing](plugins/agent-council/MANUAL.md#pushing)
+12. [Working while you are away](plugins/agent-council/MANUAL.md#working-while-you-are-away)
+13. [Project rules](plugins/agent-council/MANUAL.md#project-rules)
+14. [Limits](plugins/agent-council/MANUAL.md#limits)
+15. [Troubleshooting](plugins/agent-council/MANUAL.md#troubleshooting)
 
 ## Limits
 
@@ -185,6 +193,7 @@ plugins/agent-council/              the plugin
   .claude-plugin/plugin.json
   agents/                           the twenty-one agents
   skills/council/SKILL.md           working rules, review gate, pipelines
+  skills/council/references/        detailed checks read when needed (pushing)
   examples/project-overlay.md       template for per-project rules
   MANUAL.md                         the user manual
   CHANGELOG.md                      what changed in each version

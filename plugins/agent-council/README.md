@@ -45,6 +45,10 @@ The `council` skill adds:
 - **A proportional review gate.** A risk table decides who reviews what:
   security-touching code gets Marcus and Sentinel, ordinary code gets Marcus,
   a README correction gets no review round.
+- **Project layout.** Follows the language's and the project's way of
+  arranging files, never reorganises unasked, and offers a tidy-up plan once
+  if tests or styles are scattered in a way that is a problem.
+- **Tests stay off GitHub** unless you say to publish them.
 - **No push on a guess.** "Push to GitHub" can mean send it to GitHub or
   copy it to the folder you push from. Claude settles which, says exactly
   what will go, and waits for your go-ahead.
@@ -126,7 +130,7 @@ project rules and troubleshooting.
 
 ## Versions
 
-This is version 4.2. `CHANGELOG.md` says what changed in each version since the
+This is version 4.3. `CHANGELOG.md` says what changed in each version since the
 original roster.
 
 ## Limits
