@@ -308,15 +308,23 @@ pipeline.
 4. Reviewers get the request, the diff and its blast radius - not your
    reasoning or conclusions - so they judge independently.
 5. Before launching any agent, confirm it can reach the files with the tools
-   it has. An agent that edits and cannot reach them: report the step as not
-   run. A reviewer that cannot reach them: copy in exactly the files it needs,
-   just before the review, and name them in its task prompt; if that cannot
-   be done, report the review as not run. An agent reaches only what the user
-   has given this session access to - never request wider access for it.
-   Reviewers cannot list folders on the user's computer, so when a reviewer
-   is to work on files there, put a listing of the connected folder (or the
-   part of it the task concerns) in its task prompt, and name the files it
-   should copy in.
+   it has. An agent reaches only the folders the user has connected to this
+   session - never request wider access for it; if the files are elsewhere,
+   ask the user to connect that folder, or report the step as not run.
+   - The build agents (Ada, Atlas, Clara, Devon, Piper, Quinn) have the
+     device shell and write-back, for connected folders only. Before giving
+     one a write scope there, make sure the work can be undone (a commit or
+     the project's backup step). The shell is a Linux machine on the user's
+     computer, not their own system: name in the task which checks to run
+     there, and run checks that need the user's own setup (their Python,
+     their Docker) yourself, or report them as not run.
+   - Every other agent, Nova included, can only copy files in. Put a listing
+     of the part of the connected folder the task concerns in its task
+     prompt, and name the files it should copy in. What they write (Prose's
+     piece, Sentinel's audit log, Nova's image) comes back to you, and you
+     place it.
+   - Connect the narrowest folders a job needs; a connected folder is open to
+     every agent you launch.
 6. When the user names an agent ("Marcus, review this"), launch that agent.
 7. **Small follow-ups you do yourself:** a reviewer's nit, a one-line test
    tightening, a comment, re-pointing a check at a moved line. Do it, run the

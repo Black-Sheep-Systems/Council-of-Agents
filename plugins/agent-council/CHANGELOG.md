@@ -7,6 +7,31 @@ Versions 1 and 2 were not numbered at the time. Their numbers, and the months
 given for versions 1 to 3, were worked out afterwards from the files and the
 dates they were last changed.
 
+## Version 4.3.4 - 2026-11-26
+
+**Changed**
+
+- **Every agent can now look at files on the user's computer, in the folders
+  the user has connected to the session.** No agent is given a tool that
+  reaches the user's files outside those folders, and none can ask for more.
+  The device shell is a sandbox on the user's computer with its own scratch
+  space; it sees the connected folders and nothing else of the user's.
+- **The build agents (Ada, Atlas, Clara, Devon, Piper, Quinn) can change
+  files there.** They have the device shell and write-back. Every other
+  agent can only copy files in; what they write (Prose's piece, Sentinel's
+  audit log, Nova's image) comes back to the main session to place.
+- **Nova now has a tool list.** It had none, so it inherited every tool,
+  including ones that reach the whole computer. It now has an explicit list:
+  it can copy files in, like every agent that does not build, and denies the
+  browser tools as well.
+- **Guard rails on the device shell, in every agent's rules:** never
+  overwrite a file the user changed meanwhile (`force=true` is forbidden),
+  never discard work (`git reset --hard`, emptying files and the like), no
+  network commands unless the task names them, and nothing sent anywhere.
+  These are instructions; the tools enforce the folder limit, not these.
+- **The rule lives in one place:** the shared rules, so all 21 agents carry
+  the same text.
+
 ## Version 4.3.3 - 2026-11-26
 
 **Changed**
